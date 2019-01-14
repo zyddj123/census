@@ -29,10 +29,10 @@ class LoginController extends CO_Controller{
 	 */
 	protected function _init(){
 		//mw会话管理包
-		$this->session=new SELLER_Session();
+		$this->session=new CensusSession();
 		
 		//加载语言包
-		$this->GetLang('sys')->GetLang('user')->GetLang('login');
+		// $this->GetLang('sys')->GetLang('user')->GetLang('login');
 		
 		// 是否需要验证码
 		$cfg_login_auth_code=$this->config->get('login_auth_code');
@@ -52,30 +52,21 @@ class LoginController extends CO_Controller{
 		);
 	}
 
-    function aaa(){
-        $this->Render('index');
-    }
-
 	/**
 	 * 登录
 	 */
 	function login(){
-		$seller_name = $this->input->post('uid');
-		$seller_pwd = $this->input->post('password');
-		$chk = $this->_checkUserPwd($seller_name,$seller_pwd);
-		// var_dump($chk);
+		$uname = $this->input->post('uname');
+		$upwd = $this->input->post('upwd');
+		$chk = $this->_checkUserPwd($uname,$upwd);
 		//验证码
 		if($this->_bln_login_auth_code && strtolower($this->input->post('auth_code'))!=strtolower($this->session->Get('login_auth_code'))){
 			$this->_failure();
 		}else if($chk){
 			//成功
 			$this->session->set('id',$chk['id']);
-			$this->session->set('seller_name',$chk['seller_name']);
-			$this->session->set('seller_pwd',$chk['seller_pwd']);
-			// $this->session->set('seller_sex',$chk['seller_sex']);
-			// $this->session->set('seller_phone',$chk['seller_phone']);
-			// $this->session->set('seller_img',$chk['seller_img']);
-			// $this->session->set('seller_mail',$chk['seller_mail']);
+			$this->session->set('uname',$chk['uname']);
+			$this->session->set('upwd',$chk['upwd']);
 			// 定向到入口页面
 			header('location:/Index');
 			//清除SESSION中的auth_code
@@ -120,7 +111,7 @@ class LoginController extends CO_Controller{
 		} catch (Exception $e) {
 			return 0;
 		}
-		$data = $db->SelectOne(SellerConfig::SELLER,array('seller_name'=>$uid, 'seller_pwd'=>md5($pwd)));
+		$data = $db->SelectOne(CensusConfig::ADMIN,array('uname'=>$uid, 'upwd'=>md5($pwd)));
 		if(!$data){
 			return 0;
 		}else{

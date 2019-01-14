@@ -111,4 +111,5 @@ define('LANG_DEFAULT', 'zh-cn');
 
 //默认视图主题
 define('VIEW_DEFAULT_THEMES', 'default');
+define('APP_LOG_PATH', LOG_PATH.'/db/');
 ?>
