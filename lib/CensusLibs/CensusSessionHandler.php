@@ -3,7 +3,7 @@
  * census会话session控制类
  *
  * @author			B.I.T
- * @copyright		Copyright (c) 2018 - 2019.
+ * @copyright		Copyright (c) 2017 - 2019.
  * @license
  *
  * @see

@@ -4,7 +4,7 @@
  *
  * @package
  * @author			B.I.T
- * @copyright		Copyright (c) 2016 - 2017.
+ * @copyright		Copyright (c) 2017 - 2019.
  * @license
  * @link
  * @since				Version 1.18
@@ -16,6 +16,7 @@ class CensusConfig{
 	/*------------------------------数据库表-------------------------------*/
 	//数据库表
 	const ADMIN = 'census_admin';
+	const VISIT_LOG = 'census_visit_log';
 
 	//数据库视图
 	const VIEW_GOODS = 'mall_view_goods';

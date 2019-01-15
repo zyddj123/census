@@ -7,7 +7,7 @@ if (!defined('CO_BASE_CHECK')){
 }
 
 /**
- * census Index_控制器
+ * census Visitor_控制器
  *
  * @package
  * @author			B.I.T
@@ -16,10 +16,8 @@ if (!defined('CO_BASE_CHECK')){
  * @link
  * @since				Version 1.19
  */
-// include_once realpath(__DIR__.'/../').'/core/SELLER_Session.php';
-// include_once realpath(__DIR__.'/../').'/core/common.php';
 // ------------------------------------------------------------------------
-class IndexController extends CO_Controller{
+class VisitorController extends CO_Controller{
 	
 	/**
 	 * 控制器初始化
@@ -46,11 +44,21 @@ class IndexController extends CO_Controller{
         $this->Render('Index/index');
     }
 
+	//概览
     function overview(){
         //导航定位
         $this->session->set('left_menu_action', 'visitor/overview');
         $this->render('visitor/overview');
     }
+
+	//获取概览数据
+	function overview_ajax_data(){
+		$t_start = $this->input->post('t_start');
+		$t_end = $this->input->post('t_end');
+		$visitLogObj = new VisitLog($this->getDb());
+        $data = $visitLogObj->select_or("count(`nb_visits`) AS nb_visits, visit_time","visit_time BETWEEN '{$t_start}' AND '{$t_end}' GROUP BY `visit_time`");
+		echo json_encode($data);
+	}
 
 	function getThemesUrl(){
 		return HTTP_ROOT_PATH.'/'.VIEW_THEMES_PATH_NAME.'/'.$this->getThemes();

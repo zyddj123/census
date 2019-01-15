@@ -8,7 +8,7 @@
  *
  * @package
  * @author			B.I.T
- * @copyright		Copyright (c) 2013 - 2016.
+ * @copyright		Copyright (c) 2017 - 2019.
  * @license
  * @link
  * @since				Version 1.1

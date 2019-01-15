@@ -31,13 +31,13 @@ if (!defined('CO_BASE_CHECK')){
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 $db_config['default'] = array(
 		'type' => 'mysqli',
-		'host' => 'localhost',
+		'host' => '127.0.0.1',
 		'port' => '3306',
 		'user' => 'root',
-		'password' => 'root',
+		'password' => 'zdj123456',
 		'charset' => 'utf8',
-		'db_name' => '',
-		'log_type' => '1',
+		'db_name' => 'census',
+		'log_type' => '2',
 		'log_path' => APP_LOG_PATH
 );
 ?>

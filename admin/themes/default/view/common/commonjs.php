@@ -1,5 +1,4 @@
 <!-- jQuery  -->
-<script src="<?php echo $this->getThemesUrl();?>/assets/js/jquery.min.js"></script>
 <script src="<?php echo $this->getThemesUrl();?>/assets/js/bootstrap.min.js"></script>
 <script src="<?php echo $this->getThemesUrl();?>/assets/js/waves.js"></script>
 <script src="<?php echo $this->getThemesUrl();?>/assets/js/wow.min.js"></script>

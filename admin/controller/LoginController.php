@@ -68,7 +68,7 @@ class LoginController extends CO_Controller{
 			$this->session->set('uname',$chk['uname']);
 			$this->session->set('upwd',$chk['upwd']);
 			// 定向到入口页面
-			header('location:/Index');
+			header('location:/Visitor');
 			//清除SESSION中的auth_code
 			if($this->_bln_login_auth_code) $this->session->Set('login_auth_code', '');
 		}else{

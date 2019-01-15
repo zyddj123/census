@@ -22,13 +22,13 @@
         <div id="sidebar-menu">
             <ul>
                 <li id="census/index">
-                    <a href="<?php echo $this->config->app_url_root;?>/Index" class="waves-effect"><i class="md md-home"></i><span> 首页 </span></a>
+                    <a href="<?php echo $this->config->app_url_root;?>/Visitor" class="waves-effect"><i class="md md-home"></i><span> 首页 </span></a>
                 </li>
 
                 <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="md md-poll"></i><span> 访客分析 </span><span class="pull-right"><i class="md md-add"></i></span></a>
                     <ul class="list-unstyled">
-                        <li id="visitor/overview"><a href="<?php echo $this->config->app_url_root.'/Index/overview'?>">概览</a></li>
+                        <li id="visitor/overview"><a href="<?php echo $this->config->app_url_root.'/Visitor/overview'?>">概览</a></li>
                         <li><a href="#">日志</a></li>
                         <li><a href="#">设备</a></li>
                         <li><a href="#">软件</a></li>

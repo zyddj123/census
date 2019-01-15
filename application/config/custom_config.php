@@ -81,7 +81,7 @@ $custom_system_configs['themes'] = 'default';
  * 		b).编写class session_handler并实现系统接口SessionHandlerInterface。实现接口中的open，close，read，write，destory，gc方法
  * 		c).修改自定义会话存取类配置session_lifetime值为session_handler。
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-$custom_system_configs['session_start'] = '1';
+$custom_system_configs['session_start'] = '2';
 $custom_system_configs['session_custom'] = '';
 $custom_system_configs['session_lifetime'] = '';
 
