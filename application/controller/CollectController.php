@@ -42,6 +42,7 @@ class CollectController extends CO_Controller{
 		$m_sid = $this->input->post('m_sid');
 		$page_time = $this->input->post('page_time');
 		$today = date("Y-m-d");
+		$month = date("Y-m");
 		$data = array(
 			'mid'=>$m_sid,
 			'nb_visits'=>1,
@@ -53,13 +54,24 @@ class CollectController extends CO_Controller{
 			'visit_time'=>$today
 		);
         $visitLogObj = new VisitLog($this->getDb());
-        @$visitLogObj->add($data);
+
+		if($visitLogObj->isset_table($month)){
+			//存在本月这张表
+			$visitLogObj->add($month,$data);
+		}else{
+			//不存在本月这张表  创建一张本月的数据表
+			$flag = $visitLogObj->create_table($month);
+			if($flag){
+				//创建成功  则添加数据
+				$visitLogObj->add($month,$data);
+			}else{
+				//创建失败
+			}
+		}
+		
 		echo true;
 	}
 
-    function aaa(){
-        echo json_encode($_GET);
-    }
 
 	function getThemesUrl(){
 		return HTTP_ROOT_PATH.'/'.VIEW_THEMES_PATH_NAME.'/'.$this->getThemes();

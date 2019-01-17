@@ -56,7 +56,7 @@ class VisitorController extends CO_Controller{
 		$t_start = $this->input->post('t_start');
 		$t_end = $this->input->post('t_end');
 		$visitLogObj = new VisitLog($this->getDb());
-        $data = $visitLogObj->select_or("count(`nb_visits`) AS nb_visits, visit_time","visit_time BETWEEN '{$t_start}' AND '{$t_end}' GROUP BY `visit_time`");
+        $data = $visitLogObj->select($t_start,$t_end);
 		echo json_encode($data);
 	}
 

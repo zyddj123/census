@@ -71,11 +71,11 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-5" id="nb_visits_spark" style="text-align:right;">
 
                                                     </div>
-                                                    <div class="col-lg-1">
-                                                        1111
+                                                    <div class="col-lg-1" id="nb_visits">
+                                                        
                                                     </div>
                                                     <div class="col-lg-6">
                                                         访问次数
@@ -84,11 +84,11 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-5" id="page_time_spark" style="text-align:right;">
 
                                                     </div>
-                                                    <div class="col-lg-1">
-                                                        1111
+                                                    <div class="col-lg-1" id="page_time">
+                                                        
                                                     </div>
                                                     <div class="col-lg-6">
                                                         页面停留时间
@@ -100,7 +100,7 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-5" style="text-align:right;">
 
                                                     </div>
                                                     <div class="col-lg-1">
@@ -113,11 +113,11 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-5" id="avg_page_time_spark" style="text-align:right;">
 
                                                     </div>
-                                                    <div class="col-lg-1">
-                                                        1111
+                                                    <div class="col-lg-1" id="avg_page_time">
+                                                        
                                                     </div>
                                                     <div class="col-lg-6">
                                                         平均停留时间
@@ -129,7 +129,7 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-5" style="text-align:right;">
 
                                                     </div>
                                                     <div class="col-lg-1">
@@ -142,7 +142,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-5" style="text-align:right;">
 
                                                     </div>
                                                     <div class="col-lg-1">
@@ -180,127 +180,161 @@
         <script src="<?php echo $this->getThemesUrl();?>/assets/js/jquery-sparkline/jquery.sparkline.min.js"></script>
         
         <script>
-            // if(_LANG=="zh-cn"){
-                    var visit_total = '访问人数';
-                    var second = '秒';
-                    var minute = '分';
-                    var hour = '时';
-                // }else if(_LANG=="en"){
-                //     var visit_total = 'visit';
-                //     var second = 's';
-                //     var minute = 'm';
-                //     var hour = 'h';
-                // }
-                function get_data(t_start,t_end){
-                    $.post(_REQUEST_HOST+"/visitor/overview_ajax_data",{'t_start':t_start,'t_end':t_end},function(e){
-                        e = JSON.parse(e);
-                        var days = getAll(t_start,t_end);
-                        var total_nb_visits = [];
-                        for (var i = 0; i < days.length; i++) {
-                            total_nb_visits[i] = 0;
-                        }
-                        days.unshift('x');
-					    total_nb_visits.unshift(visit_total);
+            var visit_total = '访问人数';
+            var second = '秒';
+            var minute = '分';
+            var hour = '时';
+            function get_data(t_start,t_end){
+                $.post(_REQUEST_HOST+"/visitor/overview_ajax_data",{'t_start':t_start,'t_end':t_end},function(e){
+                    e = JSON.parse(e);
+                    var days = getAll(t_start,t_end);//表格x轴数据
+                    var total_nb_visits = []; //表格y轴数据
+                    for (var i = 0; i < days.length; i++) {
+                        total_nb_visits[i] = 0;
+                    }
+                    days.unshift('x');
+                    total_nb_visits.unshift(visit_total);
 
-                        if(e){
-                            $.each(e,function(i,d){
-                                var m = $.inArray(d.visit_time,days);
-                                if(m>-1){
-                                    total_nb_visits[m] = d.nb_visits;
-                                }
-                            });
-                        }
+                    var res = [];
+                    var temp = {};
+                    for(var i in e) {
+                        var key= e[i].visit_time;
+                        if(temp[key]) {
+                            temp[key].visit_time = temp[key].visit_time ;
+                            temp[key].nb_visits = parseInt(temp[key].nb_visits) + parseInt(e[i].nb_visits);
+                            temp[key].page_time = parseInt(temp[key].page_time) + parseInt(e[i].page_time);
 
-                        c3.generate({
-                            bindto: '#chart',
-                            data: {
-                                x: 'x',
-                                columns: [
-                                days,
-                                total_nb_visits
-                                ],
-                            },
-                            axis: {
-                                x: {
-                                    type: 'timeseries',
-                                    tick: {
-                                        format: '%Y/%m/%d',
-                                        culling: false 
-                                    }
-                                },
-                                y: {
-                                    label: {
-                                        text: visit_total,
-                                        position: 'inner-edge'
-                                    }
-                                }		      
+                        } else {
+                            temp[key] = {};
+                            temp[key].visit_time = e[i].visit_time;
+                            temp[key].nb_visits = parseInt(e[i].nb_visits);
+                            temp[key].page_time = parseInt(e[i].page_time);
+                        }
+                    }
+                    for(var k in temp){
+                        res.push(temp[k]);
+                    }
+
+                    var nb_visits = 0; //访问次数
+                    var nb_visits_spark = []; //访问次数数组
+                    var page_time = 0; //页面停留时间
+                    var page_time_spark = []; //页面停留时间数组
+                    var avg_page_time = 0; //页面平均停留时间
+
+                    if(res){
+                        $.each(res,function(i,d){
+                            nb_visits += d.nb_visits;
+                            page_time += d.page_time;
+
+                            nb_visits_spark.push(d.nb_visits);
+                            page_time_spark.push(d.page_time);
+
+                            var m = $.inArray(d.visit_time,days);
+                            if(m>-1){
+                                total_nb_visits[m] = d.nb_visits;
                             }
                         });
-                    });
-                }
-                //初始页面自运行
-                get_data($('#t_start').val(),$('#t_end').val());
-
-                Date.prototype.format = function() {  
-                    var s = '';  
-                    var mouth = (this.getMonth() + 1)>=10?(this.getMonth() + 1):('0'+(this.getMonth() + 1));  
-                    var day = this.getDate()>=10?this.getDate():('0'+this.getDate());  
-                    s += this.getFullYear() + '-';  
-                    s += mouth + "-";  
-                    s += day;  
-                    return (s);  
-                };
-                //获取日期间所有天
-                function getAll(begin, end) { 
-                    var days =new Array(); 
-                    var ab = begin.split("-");  
-                    var ae = end.split("-");  
-                    var db = new Date();  
-                    db.setUTCFullYear(ab[0], ab[1] - 1, ab[2]);  
-                    var de = new Date();  
-                    de.setUTCFullYear(ae[0], ae[1] - 1, ae[2]);  
-                    var unixDb = db.getTime();  
-                    var unixDe = de.getTime();  
-                    for (var k = unixDb; k <= unixDe;) {  
-                        days.push((new Date(parseInt(k))).format());  
-                        k = k + 24 * 60 * 60 * 1000;  
                     }
-                    return days;
-                }
 
-                //获取两位小数点
-                function get_two_float(num){
-                    return Math.round(num*100)/100;
-                }
-
-                //秒数转化为时分秒
-                function formatSeconds(value) {
-                    var secondTime = parseInt(value);// 秒
-                    var minuteTime = 0;// 分
-                    var hourTime = 0;// 小时
-                    if(secondTime > 60) {//如果秒数大于60，将秒数转换成整数
-                        //获取分钟，除以60取整数，得到整数分钟
-                        minuteTime = parseInt(secondTime / 60);
-                        //获取秒数，秒数取佘，得到整数秒数
-                        secondTime = parseInt(secondTime % 60);
-                        //如果分钟大于60，将分钟转换成小时
-                        if(minuteTime > 60) {
-                            //获取小时，获取分钟除以60，得到整数小时
-                            hourTime = parseInt(minuteTime / 60);
-                            //获取小时后取佘的分，获取分钟除以60取佘的分
-                            minuteTime = parseInt(minuteTime % 60);
+                    c3.generate({
+                        bindto: '#chart',
+                        data: {
+                            x: 'x',
+                            columns: [
+                            days,
+                            total_nb_visits
+                            ],
+                        },
+                        axis: {
+                            x: {
+                                type: 'timeseries',
+                                tick: {
+                                    format: '%Y/%m/%d',
+                                    culling: false 
+                                }
+                            },
+                            y: {
+                                label: {
+                                    text: visit_total,
+                                    position: 'inner-edge'
+                                }
+                            }		      
                         }
-                    }
-                    var result = "" + parseInt(secondTime) + second;
+                    });
 
-                    if(minuteTime > 0) {
-                        result = "" + parseInt(minuteTime) + minute + result;
-                    }
-                    if(hourTime > 0) {
-                        result = "" + parseInt(hourTime) + hour + result;
-                    }
-                    return result;
+                    avg_page_time = formatSeconds(page_time/(days.length-1));
+
+                    $('#nb_visits').empty().text(nb_visits);
+                    $('#nb_visits_spark').sparkline(nb_visits_spark);
+                    $('#page_time').empty().text(page_time);
+                    $('#page_time_spark').sparkline(page_time_spark);
+                    $('#avg_page_time').empty().text(avg_page_time);
+                    $('#avg_page_time_spark').sparkline(page_time_spark);
+                });
+            }
+            //初始页面自运行
+            get_data($('#t_start').val(),$('#t_end').val());
+
+            Date.prototype.format = function() {  
+                var s = '';  
+                var mouth = (this.getMonth() + 1)>=10?(this.getMonth() + 1):('0'+(this.getMonth() + 1));  
+                var day = this.getDate()>=10?this.getDate():('0'+this.getDate());  
+                s += this.getFullYear() + '-';  
+                s += mouth + "-";  
+                s += day;  
+                return (s);  
+            };
+            //获取日期间所有天
+            function getAll(begin, end) { 
+                var days =new Array(); 
+                var ab = begin.split("-");  
+                var ae = end.split("-");  
+                var db = new Date();  
+                db.setUTCFullYear(ab[0], ab[1] - 1, ab[2]);  
+                var de = new Date();  
+                de.setUTCFullYear(ae[0], ae[1] - 1, ae[2]);  
+                var unixDb = db.getTime();  
+                var unixDe = de.getTime();  
+                for (var k = unixDb; k <= unixDe;) {  
+                    days.push((new Date(parseInt(k))).format());  
+                    k = k + 24 * 60 * 60 * 1000;  
                 }
+                return days;
+            }
+
+            //获取两位小数点
+            function get_two_float(num){
+                return Math.round(num*100)/100;
+            }
+
+            //秒数转化为时分秒
+            function formatSeconds(value) {
+                var secondTime = parseInt(value);// 秒
+                var minuteTime = 0;// 分
+                var hourTime = 0;// 小时
+                if(secondTime > 60) {//如果秒数大于60，将秒数转换成整数
+                    //获取分钟，除以60取整数，得到整数分钟
+                    minuteTime = parseInt(secondTime / 60);
+                    //获取秒数，秒数取佘，得到整数秒数
+                    secondTime = parseInt(secondTime % 60);
+                    //如果分钟大于60，将分钟转换成小时
+                    if(minuteTime > 60) {
+                        //获取小时，获取分钟除以60，得到整数小时
+                        hourTime = parseInt(minuteTime / 60);
+                        //获取小时后取佘的分，获取分钟除以60取佘的分
+                        minuteTime = parseInt(minuteTime % 60);
+                    }
+                }
+                var result = "" + parseInt(secondTime) + second;
+
+                if(minuteTime > 0) {
+                    result = "" + parseInt(minuteTime) + minute + result;
+                }
+                if(hourTime > 0) {
+                    result = "" + parseInt(hourTime) + hour + result;
+                }
+                return result;
+            }
         </script>
 	</body>
 </html>

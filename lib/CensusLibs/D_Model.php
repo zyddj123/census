@@ -52,9 +52,9 @@
 
 class D_Model
 {
-    protected $table = '';
-    protected $formData = array();
+    public $table = '';
     public $key='';
+    protected $formData = array();
 
     public function __construct($db)
     {
@@ -77,12 +77,6 @@ class D_Model
         $where = $this->_parseData($where);
         return $this->db->select($this->table, $where, $param);
 
-    }
-
-    public function _select_or($select,$_sql)
-    {
-        $sql = "SELECT ".$select." FROM ".$this->table." WHERE " . $_sql;
-        return $this->db->GetAll($sql);
     }
 
     public function _delete($where, $param=array())

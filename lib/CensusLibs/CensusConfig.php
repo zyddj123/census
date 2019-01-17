@@ -16,7 +16,7 @@ class CensusConfig{
 	/*------------------------------数据库表-------------------------------*/
 	//数据库表
 	const ADMIN = 'census_admin';
-	const VISIT_LOG = 'census_visit_log';
+	const VISIT_LOG_PREFIX = 'census_visit_log'; //按月份分表的表前缀 后面接年月 例如： census_visit_log201901
 
 	//数据库视图
 	const VIEW_GOODS = 'mall_view_goods';
