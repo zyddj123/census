@@ -71,26 +71,26 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5" id="nb_visits_spark" style="text-align:right;">
+                                                    <div class="col-lg-4" id="nb_visits_spark" style="text-align:right;">
 
                                                     </div>
-                                                    <div class="col-lg-1" id="nb_visits">
+                                                    <div class="col-lg-3" id="nb_visits">
                                                         
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-4">
                                                         访问次数
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5" id="page_time_spark" style="text-align:right;">
+                                                    <div class="col-lg-4" id="page_time_spark" style="text-align:right;">
 
                                                     </div>
-                                                    <div class="col-lg-1" id="page_time">
+                                                    <div class="col-lg-3" id="page_time">
                                                         
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-4">
                                                         页面停留时间
                                                     </div>
                                                 </div>
@@ -100,26 +100,26 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5" style="text-align:right;">
+                                                    <div class="col-lg-4" style="text-align:right;">
 
                                                     </div>
-                                                    <div class="col-lg-1">
+                                                    <div class="col-lg-3">
                                                         1111
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-4">
                                                         跳出次数
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5" id="avg_page_time_spark" style="text-align:right;">
+                                                    <div class="col-lg-4" id="avg_page_time_spark" style="text-align:right;">
 
                                                     </div>
-                                                    <div class="col-lg-1" id="avg_page_time">
+                                                    <div class="col-lg-3" id="avg_page_time">
                                                         
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-4">
                                                         平均停留时间
                                                     </div>
                                                 </div>
@@ -129,26 +129,26 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5" style="text-align:right;">
+                                                    <div class="col-lg-4" style="text-align:right;">
 
                                                     </div>
-                                                    <div class="col-lg-1">
+                                                    <div class="col-lg-3">
                                                         1111
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-4">
                                                         下载数量
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="row">
-                                                    <div class="col-lg-5" style="text-align:right;">
+                                                    <div class="col-lg-4" style="text-align:right;">
 
                                                     </div>
-                                                    <div class="col-lg-1">
+                                                    <div class="col-lg-3">
                                                         1111
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-4">
                                                         站内搜索数量
                                                     </div>
                                                 </div>
@@ -266,7 +266,7 @@
 
                     $('#nb_visits').empty().text(nb_visits);
                     $('#nb_visits_spark').sparkline(nb_visits_spark);
-                    $('#page_time').empty().text(page_time);
+                    $('#page_time').empty().text(formatSeconds(page_time));
                     $('#page_time_spark').sparkline(page_time_spark);
                     $('#avg_page_time').empty().text(avg_page_time);
                     $('#avg_page_time_spark').sparkline(page_time_spark);

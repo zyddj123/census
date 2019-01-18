@@ -25,18 +25,26 @@
     <script src="<?php echo $this->getThemesUrl();?>/js/jquery.js"></script>
     <script>
         var m_sid = "<?php echo $res['id']?>";
-        function statisticsStay(){
-            // console.log(localStorage.getItem('testSecond'));
-            var second = 0;
 
+        function statisticsStay(){
+            var second = 0;
             //开启定时器记录页面停留时间
             var timer = setInterval(function(){
                 second++;
             },1000);
+            var resolution = screen.width+'x'+screen.height;    //设备分辨率
+            var referrer = document.referrer;  //访客来源
+            var request_url = window.location.href.substring((window.location.protocol+'//'+window.location.host).length);//页面url
+            var page_title = document.title;  //页面标题
             //页面刷新、关闭时触发onbeforeunload事件把停留时间记录到localStorage
             window.onbeforeunload = function(){ 
                 localStorage.setItem('testSecond',second);
-                $.post("/Collect/insert_census",{"m_sid":m_sid,"page_time":localStorage.getItem('testSecond')},function(){});
+                $.ajax({
+                    url:"/Collect/insert_census",
+                    data:{"m_sid":m_sid,"page_time":localStorage.getItem('testSecond'),"resolution":resolution,"referrer":referrer,"request_url":request_url,"page_title":page_title},
+                    async: false,
+                    type:"POST",
+                });
             };
         }
 

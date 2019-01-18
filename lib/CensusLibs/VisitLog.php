@@ -27,6 +27,11 @@ class VisitLog
             'nb_lang',
             'nb_brower',
             'nb_ip',
+            'resolution',
+            'device_type',
+            'referrer',
+            'request_url',
+            'page_title',
             'visit_time'
         );
     }
@@ -128,6 +133,11 @@ class VisitLog
                     `nb_lang` varchar(255) NOT NULL,
                     `nb_brower` varchar(255) NOT NULL,
                     `nb_ip` varchar(255) NOT NULL,
+                    `resolution` varchar(255) NOT NULL COMMENT '设备分辨率',
+                    `device_type` varchar(255) NOT NULL COMMENT '设备类型',
+                    `referrer` varchar(255) NOT NULL COMMENT '访问来源',
+                    `request_url` varchar(255) NOT NULL COMMENT '页面url',
+                    `page_title` varchar(255) NOT NULL COMMENT '页面标题',
                     `visit_time` date NOT NULL,
                     PRIMARY KEY (`id`)
                     ) ENGINE=InnoDB AUTO_INCREMENT=".date('Ym',strtotime($month))."1 DEFAULT CHARSET=utf8;";

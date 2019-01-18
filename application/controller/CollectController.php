@@ -39,8 +39,12 @@ class CollectController extends CO_Controller{
 	 * @return void
 	 */
 	function insert_census(){
-		$m_sid = $this->input->post('m_sid');
-		$page_time = $this->input->post('page_time');
+		$m_sid = $this->input->post('m_sid'); //模型id
+		$page_time = $this->input->post('page_time'); //页面停留时间
+		$resolution = $this->input->post('resolution'); //设备分辨率
+		$referrer = $this->input->post('referrer');	//来源
+		$request_url = $this->input->post('request_url'); //页面url
+		$page_title = $this->input->post('page_title'); //页面标题
 		$today = date("Y-m-d");
 		$month = date("Y-m");
 		$data = array(
@@ -50,6 +54,11 @@ class CollectController extends CO_Controller{
 			'nb_lang'=>CensusUtil::get_lang(),
 			'nb_brower'=>CensusUtil::browse_info(),
 			'nb_ip'=>CensusUtil::getIP(),
+			'resolution'=>$resolution,
+			'device_type'=>CensusUtil::is_mobile()?"移动端":"桌面端",
+			'referrer'=>($referrer=="")?"直接连接":$referrer,
+			'request_url'=>$request_url,
+			'page_title'=>$page_title,
 			'page_time'=>($page_time<1800)?$page_time:1800,
 			'visit_time'=>$today
 		);
