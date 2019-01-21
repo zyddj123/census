@@ -185,28 +185,26 @@
             var minute = '分';
             var hour = '时';
             function get_data(t_start,t_end){
-                $.post(_REQUEST_HOST+"/visitor/overview_ajax_data",{'t_start':t_start,'t_end':t_end},function(e){
+                $.post(_REQUEST_HOST+"/visitor/ajax_data",{'t_start':t_start,'t_end':t_end},function(e){
                     e = JSON.parse(e);
                     var days = getAll(t_start,t_end);//表格x轴数据
                     var total_nb_visits = []; //表格y轴数据
                     for (var i = 0; i < days.length; i++) {
                         total_nb_visits[i] = 0;
                     }
-                    days.unshift('x');
-                    total_nb_visits.unshift(visit_total);
 
                     var res = [];
                     var temp = {};
                     for(var i in e) {
-                        var key= e[i].visit_time;
+                        var key= e[i].visit_time.slice(0,10);
                         if(temp[key]) {
-                            temp[key].visit_time = temp[key].visit_time ;
+                            temp[key].visit_time = temp[key].visit_time.slice(0,10) ;
                             temp[key].nb_visits = parseInt(temp[key].nb_visits) + parseInt(e[i].nb_visits);
                             temp[key].page_time = parseInt(temp[key].page_time) + parseInt(e[i].page_time);
 
                         } else {
                             temp[key] = {};
-                            temp[key].visit_time = e[i].visit_time;
+                            temp[key].visit_time = e[i].visit_time.slice(0,10);
                             temp[key].nb_visits = parseInt(e[i].nb_visits);
                             temp[key].page_time = parseInt(e[i].page_time);
                         }
@@ -229,12 +227,15 @@
                             nb_visits_spark.push(d.nb_visits);
                             page_time_spark.push(d.page_time);
 
-                            var m = $.inArray(d.visit_time,days);
+                            var m = $.inArray(d.visit_time.slice(0,10),days);
                             if(m>-1){
                                 total_nb_visits[m] = d.nb_visits;
                             }
                         });
                     }
+
+                    days.unshift('x');
+                    total_nb_visits.unshift(visit_total);
 
                     c3.generate({
                         bindto: '#chart',

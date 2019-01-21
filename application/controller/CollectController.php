@@ -45,7 +45,7 @@ class CollectController extends CO_Controller{
 		$referrer = $this->input->post('referrer');	//来源
 		$request_url = $this->input->post('request_url'); //页面url
 		$page_title = $this->input->post('page_title'); //页面标题
-		$today = date("Y-m-d");
+		$datetime = date("Y-m-d H:i:s");
 		$month = date("Y-m");
 		$data = array(
 			'mid'=>$m_sid,
@@ -60,7 +60,8 @@ class CollectController extends CO_Controller{
 			'request_url'=>$request_url,
 			'page_title'=>$page_title,
 			'page_time'=>($page_time<1800)?$page_time:1800,
-			'visit_time'=>$today
+			'week'=>date("w"),
+			'visit_time'=>$datetime
 		);
         $visitLogObj = new VisitLog($this->getDb());
 

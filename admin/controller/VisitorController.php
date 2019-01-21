@@ -51,13 +51,81 @@ class VisitorController extends CO_Controller{
         $this->render('visitor/overview');
     }
 
-	//获取概览数据
-	function overview_ajax_data(){
+	//日志
+    function log(){
+        //导航定位
+        $this->session->set('left_menu_action', 'visitor/log');
+        $this->render('visitor/log');
+    }
+
+	//设备
+    function device(){
+        //导航定位
+        $this->session->set('left_menu_action', 'visitor/device');
+        $this->render('visitor/device');
+    }
+
+	//时间
+    function time(){
+        //导航定位
+        $this->session->set('left_menu_action', 'visitor/time');
+        $this->render('visitor/time');
+    }
+
+	//页面
+    function page(){
+        //导航定位
+        $this->session->set('left_menu_action', 'visitor/page');
+        $this->render('visitor/page');
+    }
+
+	//页面标题
+    function page_title(){
+        //导航定位
+        $this->session->set('left_menu_action', 'visitor/page_title');
+        $this->render('visitor/page_title');
+    }
+
+	//站内搜索
+    function site_search(){
+        //导航定位
+        $this->session->set('left_menu_action', 'visitor/site_search');
+        $this->render('visitor/site_search');
+    }
+
+	//站内下载
+    function site_download(){
+        //导航定位
+        $this->session->set('left_menu_action', 'visitor/site_download');
+        $this->render('visitor/site_download');
+    }
+
+	//来源
+    function referrer(){
+        //导航定位
+        $this->session->set('left_menu_action', 'visitor/referrer');
+        $this->render('visitor/referrer');
+    }
+
+	//位置
+    function location(){
+        //导航定位
+        $this->session->set('left_menu_action', 'visitor/location');
+        $this->render('visitor/location');
+    }
+
+	//获取数据(非单模型统计数据)
+	function ajax_data(){
 		$t_start = $this->input->post('t_start');
 		$t_end = $this->input->post('t_end');
 		$visitLogObj = new VisitLog($this->getDb());
         $data = $visitLogObj->select($t_start,$t_end);
 		echo json_encode($data);
+	}
+
+	//获取单模型统计数据
+	function model_ajax_data(){
+		
 	}
 
 	function getThemesUrl(){

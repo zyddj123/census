@@ -32,6 +32,7 @@ class VisitLog
             'referrer',
             'request_url',
             'page_title',
+            'week',
             'visit_time'
         );
     }
@@ -78,13 +79,13 @@ class VisitLog
                 if($mid!=""){
                     $sql .= " `mid` = ".$mid." AND ";
                 }
-                $sql .= " `visit_time` BETWEEN '{$t_start}' AND '{$t_end}' ";	
+                $sql .= " `visit_time` BETWEEN '{$t_start} 00:00:00' AND '{$t_end} 23:59:59' ";	
 			}else{
 				$sql .= " UNION ALL select * from `".$this->tablePrefix.$value."` WHERE ";
                 if($mid!=""){
                     $sql .= " `mid` = ".$mid." AND ";
                 }
-                $sql .= " `visit_time` BETWEEN '{$t_start}' AND '{$t_end}' ";
+                $sql .= " `visit_time` BETWEEN '{$t_start} 00:00:00' AND '{$t_end} 23:59:59' ";
 			}
 		}
         $res = false;
@@ -138,7 +139,8 @@ class VisitLog
                     `referrer` varchar(255) NOT NULL COMMENT '访问来源',
                     `request_url` varchar(255) NOT NULL COMMENT '页面url',
                     `page_title` varchar(255) NOT NULL COMMENT '页面标题',
-                    `visit_time` date NOT NULL,
+                    `week` tinyint(4) NOT NULL COMMENT '星期几 0为星期日',
+                    `visit_time` datetime NOT NULL,
                     PRIMARY KEY (`id`)
                     ) ENGINE=InnoDB AUTO_INCREMENT=".date('Ym',strtotime($month))."1 DEFAULT CHARSET=utf8;";
 
