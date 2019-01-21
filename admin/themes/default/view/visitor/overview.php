@@ -198,7 +198,7 @@
                     for(var i in e) {
                         var key= e[i].visit_time.slice(0,10);
                         if(temp[key]) {
-                            temp[key].visit_time = temp[key].visit_time.slice(0,10) ;
+                            temp[key].visit_time = temp[key].visit_time;
                             temp[key].nb_visits = parseInt(temp[key].nb_visits) + parseInt(e[i].nb_visits);
                             temp[key].page_time = parseInt(temp[key].page_time) + parseInt(e[i].page_time);
 
