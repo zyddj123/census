@@ -200,6 +200,8 @@
                 if(str!=''){
                     $('#'+menu).empty().append(str);
                     $('#'+menu+'_table').dataTable({
+                        bRetrieve: true,
+                        bDestroy: true,
                         searching:false,
                         lengthChange:false
                     });	

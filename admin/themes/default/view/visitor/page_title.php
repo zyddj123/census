@@ -6,7 +6,7 @@
         <title>页面标题</title>
         <!-- header -->
 	    <?php @include_once $this->getThemesPath().'/view/common/header.php'; ?> 
-        <link  type="text/css" href="<?php echo $this->getThemesUrl();?>/assets/js/c3-chart/c3.css" rel="stylesheet" ></link>
+        <link  type="text/css" href="<?php echo $this->getThemesUrl();?>/assets/js/jquery-datatables-editable/datatables.css" rel="stylesheet" ></link>
     </head>
     <body class="fixed-left">
         <!-- Begin page -->
@@ -54,7 +54,18 @@
                                         <h3 class="panel-title">页面标题</h3> 
                                     </div> 
                                     <div class="panel-body"> 
-                                        
+                                        <table class="table  table-hover general-table" id="page_title_table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="60%">页面标题</th>
+                                                    <th>访问量</th>
+                                                    <th>页面停留时间</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="page_title">
+                                                
+                                            </tbody>
+                                        </table>
                                     </div> 
                                 </div>
                             </div>
@@ -74,20 +85,91 @@
         </div>
         <!-- END wrapper -->
         <?php @include_once $this->getThemesPath().'/view/common/commonjs.php'; ?>
-        <!--c3-charts-->
-        <script src="<?php echo $this->getThemesUrl();?>/assets/js/c3-chart/d3.v3.min.js"></script>
-        <script src="<?php echo $this->getThemesUrl();?>/assets/js/c3-chart/c3.js"></script>
-        <!--sparkline-->
-        <script src="<?php echo $this->getThemesUrl();?>/assets/js/jquery-sparkline/jquery.sparkline.min.js"></script>
-        
+        <!--dataTables-->
+        <script src="<?php echo $this->getThemesUrl();?>/assets/js/jquery-datatables-editable/jquery.dataTables.js"></script>
+        <script src="<?php echo $this->getThemesUrl();?>/assets/js/jquery-datatables-editable/dataTables.bootstrap.js"></script>
+
         <script>
+
+            var second = '秒';
+            var minute = '分';
+            var hour = '时';
+
             function get_data(t_start,t_end){
                 $.post(_REQUEST_HOST+"/visitor/ajax_data",{'t_start':t_start,'t_end':t_end},function(e){
                     e = JSON.parse(e);
+
+                    var res = [];
+                    var temp = {};
+                    for(var i in e) {
+                        var key= e[i].page_title;
+                        if(temp[key]) {
+                            temp[key].page_title = temp[key].page_title;
+                            temp[key].nb_visits = parseInt(temp[key].nb_visits) + parseInt(e[i].nb_visits);
+                            temp[key].page_time = parseInt(temp[key].page_time) + parseInt(e[i].page_time);
+
+                        } else {
+                            temp[key] = {};
+                            temp[key].page_title = e[i].page_title;
+                            temp[key].nb_visits = parseInt(e[i].nb_visits);
+                            temp[key].page_time = parseInt(e[i].page_time);
+                        }
+                    }
+                    for(var k in temp){
+                        res.push(temp[k]);
+                    }
+
+                    var str = '';
+                    for (var x in res) {
+                        str += '<tr>';
+                        str += '<td>'+res[x].page_title+'</td>';
+                        str += '<td>'+res[x].nb_visits+'</td>';
+                        str += '<td>'+formatSeconds(res[x].page_time)+'</td>';
+                        str += '</tr>';
+                        }
+                    if(str!=''){
+                        $('#page_title').empty().append(str);
+                        $('#page_title_table').dataTable({
+                            bRetrieve: true,
+                            bDestroy: true,
+                        });	
+                    }else{
+                        $('#page_title_table').dataTable().fnDestroy();
+                        $('#page_title').empty().append('<tr><td colspan="3"><center>暂无数据</center></td></tr>');
+                    }
                 });
             }
             //初始页面自运行
             get_data($('#t_start').val(),$('#t_end').val());
+
+            //秒数转化为时分秒
+            function formatSeconds(value) {
+                var secondTime = parseInt(value);// 秒
+                var minuteTime = 0;// 分
+                var hourTime = 0;// 小时
+                if(secondTime > 60) {//如果秒数大于60，将秒数转换成整数
+                    //获取分钟，除以60取整数，得到整数分钟
+                    minuteTime = parseInt(secondTime / 60);
+                    //获取秒数，秒数取佘，得到整数秒数
+                    secondTime = parseInt(secondTime % 60);
+                    //如果分钟大于60，将分钟转换成小时
+                    if(minuteTime > 60) {
+                        //获取小时，获取分钟除以60，得到整数小时
+                        hourTime = parseInt(minuteTime / 60);
+                        //获取小时后取佘的分，获取分钟除以60取佘的分
+                        minuteTime = parseInt(minuteTime % 60);
+                    }
+                }
+                var result = "" + parseInt(secondTime) + second;
+
+                if(minuteTime > 0) {
+                    result = "" + parseInt(minuteTime) + minute + result;
+                }
+                if(hourTime > 0) {
+                    result = "" + parseInt(hourTime) + hour + result;
+                }
+                return result;
+            }
 
             
         </script>
