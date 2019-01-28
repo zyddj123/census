@@ -111,13 +111,11 @@
                             temp[key].nb_visits = parseInt(e[i].nb_visits);
                             temp[key].page_time = parseInt(e[i].page_time);
                         }
-                        console.log(temp);
                     }
                     for(var k in temp){
                         res.push(temp[k]);
                     }
 
-                    console.log(res);
                     var result = [];
                     for(var x in res){
                         var m = -1;
@@ -156,9 +154,10 @@
                         str += '<th>'+result[x].nb_visits+'</th>';
                         str += '<th>'+formatSeconds(result[x].page_time)+'</th>';
                         str += '</tr>';
+                        // console.log(result[x].value);
                         for(var y in result[x].value){
                             str += '<tr class="zdom'+x+'">';
-                            str += '<td style="padding-left:50px;">/'+result[x].value[y].url+'</td>';
+                            str += '<td style="padding-left:50px;"><a href="'+_FRONT_REQUEST_HOST+result[x].value[y].request_url+'" target="_blank">/'+result[x].value[y].url+'&nbsp;&nbsp;<i class="ion-share"></i></a></td>';
                             str += '<td>'+result[x].value[y].nb_visits+'</td>';
                             str += '<td>'+formatSeconds(result[x].value[y].page_time)+'</td>';
                             str += '</tr>';

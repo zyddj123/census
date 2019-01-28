@@ -107,12 +107,14 @@
                             temp[key].page_title = temp[key].page_title;
                             temp[key].nb_visits = parseInt(temp[key].nb_visits) + parseInt(e[i].nb_visits);
                             temp[key].page_time = parseInt(temp[key].page_time) + parseInt(e[i].page_time);
+                            temp[key].request_url = e[i].request_url;
 
                         } else {
                             temp[key] = {};
                             temp[key].page_title = e[i].page_title;
                             temp[key].nb_visits = parseInt(e[i].nb_visits);
                             temp[key].page_time = parseInt(e[i].page_time);
+                            temp[key].request_url = e[i].request_url;
                         }
                     }
                     for(var k in temp){
@@ -122,7 +124,7 @@
                     var str = '';
                     for (var x in res) {
                         str += '<tr>';
-                        str += '<td>'+res[x].page_title+'</td>';
+                        str += '<td><a href="'+_FRONT_REQUEST_HOST+res[x].request_url+'" target="_blank">'+res[x].page_title+'&nbsp;&nbsp;<i class="ion-share"></i></a></td>';
                         str += '<td>'+res[x].nb_visits+'</td>';
                         str += '<td>'+formatSeconds(res[x].page_time)+'</td>';
                         str += '</tr>';

@@ -26,4 +26,5 @@
 <script src="<?php echo $this->getThemesUrl();?>/assets/js/modernizr.min.js"></script>
 <script>
     _REQUEST_HOST = '';
+    _FRONT_REQUEST_HOST = 'http://app.census.com';
 </script>

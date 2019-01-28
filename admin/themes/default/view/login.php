@@ -3,7 +3,7 @@
     <head>
         <!-- meta -->
 	    <?php @include_once $this->getThemesPath().'/view/common/meta.php'; ?>
-        <title>black page</title>
+        <title>登录</title>
         <!-- header -->
 	    <?php @include_once $this->getThemesPath().'/view/common/header.php'; ?>
     </head>
